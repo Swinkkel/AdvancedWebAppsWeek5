@@ -1,5 +1,25 @@
 extends layout
 
 block content
-  h1= title
-  p Welcome to #{title}
+    nav
+        div.nav-wrapper
+        a.brand-logo(href="#") Recipe App
+
+    div.container
+      div.col
+        h2 View Recipe
+        div#recipe
+
+      div.col
+        h2 Add Recipe
+        input#name-text(type="text", placeholder="Recipe Name")
+        h4 Ingredients
+        textarea#ingredients-text.materialize-textarea
+        button.btn#add-ingredient Add Ingredient
+        h4 Instructions
+        textarea#instructions-text.materialize-textarea
+        button.btn#add-instruction Add Instruction
+        h4 Upload Image
+        input#image-input(type="file" multiple accept="image/*")
+        input.file-path.validate(type="text")
+        button.btn#submit Submit

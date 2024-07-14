@@ -3,9 +3,29 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+const mongoose = require('mongoose');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
+var recipeRouter = require('./routes/recipe');
+const imagesRouter = require('./routes/images');
+
+// Setup Mongo DB
+const mongoDBURL = process.env.MONGO_URL;
+mongoose.connect(mongoDBURL);
+
+mongoose.Promise = Promise;
+const db = mongoose.connection;
+
+db.on("error", console.error.bind(console, "MongoDB connection error"));
+
+
+// Create Recipes collection to DB
+const Recipe = mongoose.model('Recipe', new mongoose.Schema({
+  name: String,
+  instructions: [String],
+  ingredients: [String],
+}));
 
 var app = express();
 
@@ -21,6 +41,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+app.use('/recipe', recipeRouter);
+app.use('/images', imagesRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
