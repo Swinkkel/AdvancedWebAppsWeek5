@@ -19,14 +19,6 @@ const db = mongoose.connection;
 
 db.on("error", console.error.bind(console, "MongoDB connection error"));
 
-
-// Create Recipes collection to DB
-const Recipe = mongoose.model('Recipe', new mongoose.Schema({
-  name: String,
-  instructions: [String],
-  ingredients: [String],
-}));
-
 var app = express();
 
 // view engine setup
