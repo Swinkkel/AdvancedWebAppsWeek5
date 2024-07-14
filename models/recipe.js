@@ -7,4 +7,4 @@ let recipeSchema = new mongoose.Schema({
   ingredients: [String],
 });
 
-module.exports = mongoose.model('Recipe', recipeSchema);
+module.exports = mongoose.model('Recipes', recipeSchema);
