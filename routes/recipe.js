@@ -9,12 +9,11 @@ let recipes = [];
 router.get('/:food', function(req, res) {
     const { food } = req.params;
 
-    const recipe = {
-        name: food,
-        instructions: ['Step 1: ', 'Meanwhile, make the sauce'],
-        ingredients: ['Ingredient 1', 'Casserole']
-    };
-
+    const recipe = await Recipes.findOne({name: food});
+    if (!recipe) {
+        res.json({ status: "Recipe not found" });
+    }
+    
     res.json(recipe);
 });
 
