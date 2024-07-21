@@ -23,7 +23,7 @@ router.post('/', async function(req, res, next) {
 
     let recipe = await Recipes.findOne({ name: name});
     if (!recipe) {
-        new Recipes({
+        recipe = new Recipes({
             name: name,
             instructions: instructions,
             ingredients: ingredients
