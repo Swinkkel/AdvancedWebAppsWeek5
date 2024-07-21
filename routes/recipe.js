@@ -21,19 +21,19 @@ router.get('/:food', function(req, res) {
 router.post('/', async function(req, res, next) {
     const {name, instructions, ingredients} = req.body;
 
-    const recipe = await Recipes.findOne({ name: name});
+    let recipe = await Recipes.findOne({ name: name});
     if (!recipe) {
         new Recipes({
             name: name,
             instructions: instructions,
             ingredients: ingredients
-        }).save((err) => {
-            if (err) return next(err);
-            return res.send(body);
         });
     } else {
         return res.status(403).send("Already has that recipe!");
     }
+
+    await recipe.save();
+    return res.send(body);
 });
 
 module.exports = router;
