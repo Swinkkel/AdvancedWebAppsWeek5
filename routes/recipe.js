@@ -33,7 +33,7 @@ router.post('/', async function(req, res, next) {
     }
 
     await recipe.save();
-    return res.send(body);
+    return res.send("Recipe added");
 });
 
 module.exports = router;
