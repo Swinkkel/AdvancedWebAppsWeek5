@@ -2,19 +2,16 @@ var express = require('express');
 var router = express.Router();
 const Recipes = require('../models/recipe');
 
-// Structure to store recipes.
-let recipes = [];
-
 /* GET home page. */
-router.get('/:food', function(req, res) {
+router.get('/:food', async function(req, res) {
     const { food } = req.params;
 
     const recipe = await Recipes.findOne({name: food});
     if (!recipe) {
-        res.json({ status: "Recipe not found" });
+        return res.json({ status: "Recipe not found" });
     }
     
-    res.json(recipe);
+    return res.json(recipe);
 });
 
 router.post('/', async function(req, res, next) {
@@ -28,11 +25,11 @@ router.post('/', async function(req, res, next) {
             ingredients: ingredients
         });
     } else {
-        return res.status(403).send("Already has that recipe!");
+        return res.status(403).json({ status: "Already has that recipe!" });
     }
 
     await recipe.save();
-    return res.send("Recipe added");
+    return res.json(recipe);
 });
 
 module.exports = router;
