@@ -25,14 +25,15 @@ router.get('/:food', async function(req, res) {
 });
 
 router.post('/', async function(req, res, next) {
-    const {name, instructions, ingredients} = req.body;
+    const {name, instructions, ingredients, categories} = req.body;
 
     let recipe = await Recipes.findOne({ name: name});
     if (!recipe) {
         recipe = new Recipes({
             name: name,
             instructions: instructions,
-            ingredients: ingredients
+            ingredients: ingredients,
+            categories: categories
         });
     } else {
         return res.status(403).json({ status: "Already has that recipe!" });

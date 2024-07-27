@@ -8,10 +8,11 @@ if(document.readyState !== "loading"){
     })
 }
 
+let selectedCategories = [];
+
 function initializeCode() {
     const ingredients = [];
     const instructions = [];
-    let selectedCategories = [];
 
     getCategories();
 
@@ -134,6 +135,8 @@ function fetchRecipe(food) {
                     <ul>${data.ingredients.map(i => `<li>${i}</li>`).join('')}</ul>
                     <h5>Instructions</h5>
                     <ol>${data.instructions.map(i => `<li>${i}</li>`).join('')}</ol>
+                    <h5>Categories</h5>
+                    <ul>${data.categories.map(i => `<li>${i}</li>`).join('')}</ul>
                 `;
             }
         });
