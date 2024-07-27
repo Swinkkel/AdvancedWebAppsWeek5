@@ -11,6 +11,9 @@ if(document.readyState !== "loading"){
 function initializeCode() {
     const ingredients = [];
     const instructions = [];
+    let selectedCategories = [];
+
+    getCategories();
 
     document.getElementById('add-ingredient').addEventListener('click', function() {
         const ingredient = document.getElementById('ingredients-text').value;
@@ -29,7 +32,8 @@ function initializeCode() {
         const data = {
             name: name,
             ingredients: ingredients,
-            instructions: instructions
+            instructions: instructions,
+            categories: selectedCategories
         };
 
         fetch('/recipe/', {
@@ -75,6 +79,41 @@ function initializeCode() {
     });
 
     fetchRecipe('pizza');
+}
+
+function getCategories() {
+    console.log('Fetching categories');
+
+    const categoriesDiv = document.getElementById('categories');
+
+    fetch('/recipe/categories')
+        .then(response => response.json())
+        .then(data => {
+            if (!data) {
+                categoriesDiv.innerHTML = 'No categories defined';    
+            }
+            else {
+                console.log('test ' + data);
+
+                categoriesDiv.innerHTML = '';
+                data.forEach(category => {
+                    const div = document.createElement('div');
+                    div.textContent = category.name;
+                    div.dataset.id = category._id;
+                    div.classList.add('chip');
+                    div.addEventListener('click', () => {
+                        if (selectedCategories.includes(category._id)) {
+                            selectedCategories = selectedCategories.filter(id => id !== category._id);
+                            div.classList.remove('selected');
+                        } else {
+                            selectedCategories.push(category._id);
+                            div.classList.add('selected');
+                        }
+                    });
+                    categoriesDiv.appendChild(div);
+                });
+            }
+        });
 }
 
 function fetchRecipe(food) {

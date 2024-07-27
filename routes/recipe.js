@@ -1,6 +1,16 @@
 var express = require('express');
 var router = express.Router();
 const Recipes = require('../models/recipe');
+const Category = require('../models/category');
+
+router.get('/categories', async function(req, res) {
+    try {
+        const categories = await Category.find();
+        res.json(categories);
+    } catch (error) {
+        res.status(500).send(error);
+    }
+});
 
 /* GET home page. */
 router.get('/:food', async function(req, res) {
@@ -31,5 +41,6 @@ router.post('/', async function(req, res, next) {
     await recipe.save();
     return res.json(recipe);
 });
+
 
 module.exports = router;
